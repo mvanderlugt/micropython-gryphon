@@ -4,6 +4,9 @@
     ["gryphon/__init__.py", "github:mvanderlugt/micropython-gryphon/__init__.py"],
     ["gryphon/gryphon.py", "github:mvanderlugt/micropython-gryphon/gryphon.py"]
   ],
-  "deps": []
+  "deps": [
+    ["github:mvanderlugt/micropython-logging", "main"],
+    ["github:mvanderlugt/micropython-wifi", "main"]
+  ]
 }
 
