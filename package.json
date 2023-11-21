@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "urls": [
     ["gryphon/__init__.py", "github:mvanderlugt/micropython-gryphon/__init__.py"],
-    ["gryphon/hello.py", "github:mvanderlugt/micropython-gryphon/gryphon.py"]
+    ["gryphon/gryphon.py", "github:mvanderlugt/micropython-gryphon/gryphon.py"]
   ],
   "deps": []
 }
