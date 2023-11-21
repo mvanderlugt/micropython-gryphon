@@ -6,7 +6,8 @@
   ],
   "deps": [
     ["github:mvanderlugt/micropython-logging", "main"],
-    ["github:mvanderlugt/micropython-wifi", "main"]
+    ["github:mvanderlugt/micropython-wifi", "main"],
+    ["github:mvanderlugt/micropython-http-client", "main"]
   ]
 }
 

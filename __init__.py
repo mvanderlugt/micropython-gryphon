@@ -1,1 +1,0 @@
-from .gryphon import Gryphon
