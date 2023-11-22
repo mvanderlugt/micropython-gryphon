@@ -42,16 +42,19 @@ class Gryphon:
 
     async def update_package(self, package: Package) -> None:
         latest_version = await package.get_latest_version()
-        if package.get_id() not in self.package_registry:
-            self.log.info(f"Installing {package}")
+        if package.get_id() not in self.package_registry or \
+                self.package_registry[package.get_id()]["version"] != latest_version:
+            self.log.info(f"Installing {package}, version = {latest_version}")
             await package.install(latest_version)
-            self.package_registry[package.get_id()] = dict(version=latest_version)
-        elif self.package_registry[package.get_id()]["version"] != latest_version:
-            self.log.info(f"Updating {package}")
-            await package.install(latest_version)
-            self.package_registry[package.get_id()]["version"] = latest_version
+            await self.update_registry_package_version(package, latest_version)
+            await self.save_registry()
         else:
             self.log.info(f"{package} already latest version")
+
+    async def update_registry_package_version(self, package, latest_version):
+        if package.get_id() not in self.package_registry:
+            self.package_registry[package.get_id()] = dict()
+        self.package_registry[package.get_id()] = dict(version=latest_version)
 
     def load_config(self) -> dict:
         try:
