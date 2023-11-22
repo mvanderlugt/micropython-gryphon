@@ -1,2 +1,2 @@
 from gryphon.gryphon import Gryphon
-from github import GithubPackage
+from gryphon.github import GithubPackage
