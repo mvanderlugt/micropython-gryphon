@@ -1,12 +1,71 @@
+from json import load, dump
+
+from gryphon import GithubPackage
 from gryphon.package import Package
+from logging import get_logger
 
 
 class Gryphon:
-    def __init__(self):
-        from build import packages
-        self.packages: list[Package] = packages
+    internal_packages = [
+        GithubPackage("mvanderlugt", "micropython-gryphon", "main"),
+        GithubPackage("mvanderlugt", "micropython-wifi", "main"),
+        GithubPackage("mvanderlugt", "micropython-http-client", "main"),
+        GithubPackage("mvanderlugt", "micropython-logging", "main")
+    ]
 
-    async def check_for_updates(self):
-        for package in self.packages:
-            latest_version = await package.get_latest_version()
+    def __init__(self):
+        self.log = get_logger(__name__)
+        self.filename = "gryphon.json"
+        self.package_registry: dict = dict()
+
+    async def load_registry(self) -> None:
+        config = self.load_config()
+        if "packages" in config:
+            self.package_registry = config["packages"]
+        else:
+            self.package_registry = dict()
+
+    async def save_registry(self) -> None:
+        config = self.load_config()
+        config["packages"] = self.package_registry
+        self.save_config(config)
+
+    async def self_update(self):
+        for package in Gryphon.internal_packages:
+            await self.update_package(package)
+
+    async def update_build(self):
+        from build import packages
+
+        for package in packages:
+            await self.update_package(package)
+
+    async def update_package(self, package: Package) -> None:
+        latest_version = await package.get_latest_version()
+        if package.get_id() not in self.package_registry:
+            self.log.info(f"Installing {package}")
             await package.install(latest_version)
+            self.package_registry[package.get_id()] = dict(version=latest_version)
+        elif self.package_registry[package.get_id()]["version"] != latest_version:
+            self.log.info(f"Updating {package}")
+            await package.install(latest_version)
+            self.package_registry[package.get_id()]["version"] = latest_version
+        else:
+            self.log.info(f"{package} already latest version")
+
+    def load_config(self) -> dict:
+        try:
+            with open(self.filename) as stream:
+                config = load(stream)
+        except OSError as error:
+            if error.errno == 2:
+                with open(self.filename, "w") as file:
+                    file.write("{}")
+                config = dict()
+            else:
+                raise error
+        return config
+
+    def save_config(self, config: dict) -> None:
+        with open(self.filename, 'w') as stream:
+            dump(config, stream)

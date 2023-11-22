@@ -10,6 +10,9 @@ class GithubPackage(Package):
         self.repository = repository
         self.branch = branch
 
+    def get_id(self) -> str:
+        return f"{self.owner}/{self.repository}"
+
     async def get_latest_version(self) -> str:
         http_client = HttpClient("api.github.com", 443, ssl=True)
         path = f"/repos/{self.owner}/{self.repository}/git/refs/heads/{self.branch}"
