@@ -1,6 +1,6 @@
 from json import load, dump
 
-from gryphon import GithubPackage
+from gryphon.github import GithubPackage
 from gryphon.package import Package
 from logging import get_logger
 
