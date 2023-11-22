@@ -1,8 +1,10 @@
 {
   "version": "0.1.0",
   "urls": [
-    ["gryphon/__init__.py", "github:mvanderlugt/micropython-gryphon/gryphon/__init__.py"],
-    ["gryphon/gryphon.py", "github:mvanderlugt/micropython-gryphon/gryphon/gryphon.py"]
+    ["gryphon/package.py", "github:mvanderlugt/micropython-gryphon/gryphon/package.py"],
+    ["gryphon/github.py", "github:mvanderlugt/micropython-gryphon/gryphon/github.py"],
+    ["gryphon/gryphon.py", "github:mvanderlugt/micropython-gryphon/gryphon/gryphon.py"],
+    ["gryphon/__init__.py", "github:mvanderlugt/micropython-gryphon/gryphon/__init__.py"]
   ],
   "deps": [
     ["github:mvanderlugt/micropython-logging", "main"],
