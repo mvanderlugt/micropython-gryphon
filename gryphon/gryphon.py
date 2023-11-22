@@ -6,7 +6,7 @@ class Gryphon:
         from build import packages
         self.packages: list[Package] = packages
 
-    def check_for_updates(self):
+    async def check_for_updates(self):
         for package in self.packages:
-            latest_version = package.get_latest_version()
-            package.install(latest_version)
+            latest_version = await package.get_latest_version()
+            await package.install(latest_version)

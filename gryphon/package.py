@@ -1,7 +1,7 @@
 
 class Package:
-    def get_latest_version(self) -> str:
+    async def get_latest_version(self) -> str:
         raise NotImplementedError()
 
-    def install(self, version: str) -> None:
+    async def install(self, version: str) -> None:
         raise NotImplementedError()
